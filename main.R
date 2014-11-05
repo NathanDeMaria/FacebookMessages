@@ -2,6 +2,7 @@
 library(httr)
 library(data.table)
 library(dplyr)
+library(lubridate)
 
 source('app_settings.R')
 
@@ -39,7 +40,7 @@ while(!is.null(comments_list$paging$`next`)) {
 
 comments <- data.table(rbind_all(comments_frames))
 comments[,time:=ymd_hms(time)]
-
+setkey(comments, id)
 
 
 
