@@ -21,3 +21,7 @@ plussed <- lapply(comments$text, function(message_text) {
 
 plus_table <- table(unlist(plussed))
 print(plus_table[order(plus_table, decreasing = T)])
+
+# people who have given +1's
+plus_ones <- table(comments[regexpr('\\+1', text) > 0, name])
+plus_ones[order(plus_ones, decreasing = T)]
