@@ -13,3 +13,10 @@ who_said <- function(regular_expr, by_pct=T) {
 		return(merged[,pct_match:=match_count/count][order(match_count)])
 	}	
 }
+
+hearts <- function(decreasing=F, cutoff=30) {
+	# outputs the number of hearts receieved by each "person"
+	# "person" is determined by the next 26 (or fewer) characters of the message
+	hearts <- table(comments[regexpr('^<3', text) > 0, tolower(substr(text, 4, cutoff))])
+	hearts[order(hearts, decreasing = decreasing)]
+}
