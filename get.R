@@ -14,6 +14,10 @@ get_comments <- function() {
 	url <- paste0(base_url, query, '?access_token=', app_settings['token']$value)
 	rsp <- content(GET(url))
 	
+	if(!is.null(rsp$error)) {
+		stop(rsp$error)
+	}
+	
 	datas <- rsp$data
 	the_convo <- datas[[which(sapply(datas, function(dat) {dat$id == app_settings['conversation_id']$value}))]]
 	comments_list <- the_convo$comments
@@ -33,10 +37,16 @@ get_comments <- function() {
 	}
 	
 	comments_frames <- lapply(comments_list$data, parse_comment)
-	
+	i <- 1
 	while(!is.null(comments_list$paging$`next`)) {
 		comments_list <- content(GET(comments_list$paging$`next`))
+		Sys.sleep(2)
+		if(!is.null(comments_list$error)) {
+			warning(paste(comments_list$error$message, "\nYou probably did not get all the messages"))
+		}
 		comments_frames <- c(comments_frames, lapply(comments_list$data, parse_comment))
+		cat(sprintf('Round %i\n', i))
+		i <- i + 1
 	}
 	
 	comments <- data.table(rbind_all(comments_frames))
