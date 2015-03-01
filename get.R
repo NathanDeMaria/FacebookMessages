@@ -4,7 +4,7 @@ library(data.table)
 library(dplyr)
 library(lubridate)
 
-get_comments <- function() {
+get_comments <- function(max_date=NULL) {
 	source('app_settings.R')
 	
 	# do me/inbox
@@ -36,9 +36,18 @@ get_comments <- function() {
 			)
 	}
 	
+	date_ok <- function() {
+		if(is.null(max_date)) {
+			return(T)
+		}
+		last_frame <- comments_frames[[length(comments_frames)]]
+		times <- ymd_hms(last_frame$time)
+		min(times) > max_date - days(1) # extra day of overlap just in case
+	}
+	
 	comments_frames <- lapply(comments_list$data, parse_comment)
 	i <- 1
-	while(!is.null(comments_list$paging$`next`)) {
+	while(!is.null(comments_list$paging$`next`) && date_ok()) {
 		comments_list <- content(GET(comments_list$paging$`next`))
 		Sys.sleep(2)
 		if(!is.null(comments_list$error)) {
