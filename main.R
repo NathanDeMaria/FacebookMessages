@@ -1,7 +1,7 @@
 
 library(stringr)
 source('analyses.R')
-source('delta.R')
+source('data/delta.R')
 run_delta()
 
-source('load.R')
+source('data/load.R')

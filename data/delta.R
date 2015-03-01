@@ -1,8 +1,8 @@
 run_delta <- function() {
 	library(RSQLite)
 	
-	source('get.R', local=T)
-	conn <- dbConnect(SQLite(), "comments.db")
+	source('data/get.R', local=T)
+	conn <- dbConnect(SQLite(), "data/comments.db")
 	max_seconds <- dbGetQuery(conn, "SELECT MAX(time) FROM comments")
 	max_date_time <- as.POSIXct(max_seconds[1,1], origin='1970/01/01')
 	
