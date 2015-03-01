@@ -5,7 +5,7 @@ library(dplyr)
 library(lubridate)
 
 get_comments <- function(max_date=NULL) {
-	source('app_settings.R')
+	source('app_settings.R', local=T)
 	
 	# do me/inbox
 	base_url <- 'https://graph.facebook.com'

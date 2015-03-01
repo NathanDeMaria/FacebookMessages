@@ -1,6 +1,7 @@
 
 library(stringr)
-source('get.R')
 source('analyses.R')
+source('delta.R')
+run_delta()
 
-comments <- get_comments()
+source('load.R')
