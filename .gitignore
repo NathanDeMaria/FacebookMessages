@@ -1,5 +1,9 @@
 .Rproj.user
 .Rhistory
 .RData
+
 appSettings.csv
-comments.db
+
+data/comments.db
+science/exploratory/*
+!science/exploratory/README.md

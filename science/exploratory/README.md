@@ -1,0 +1,1 @@
+This folder is for exploratory analysis things that I don't want to permanently commit.

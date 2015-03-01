@@ -1,6 +1,6 @@
 
 library(stringr)
-source('analyses.R')
+source('science/analyses.R')
 source('data/delta.R')
 run_delta()
 
