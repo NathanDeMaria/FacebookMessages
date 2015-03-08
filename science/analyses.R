@@ -20,3 +20,8 @@ hearts <- function(decreasing=F, cutoff=30) {
 	hearts <- table(comments[regexpr('^<3', text) > 0, tolower(substr(text, 4, cutoff))])
 	hearts[order(hearts, decreasing = decreasing)]
 }
+
+who <- function() {
+	ct <- table(comments$name)
+	ct[order(ct)]
+}
