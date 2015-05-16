@@ -7,3 +7,5 @@ appSettings.csv
 data/comments.db
 science/exploratory/*
 !science/exploratory/README.md
+
+*.db
