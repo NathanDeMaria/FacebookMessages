@@ -1,6 +1,10 @@
 library(RSQLite)
+library(data.table)
 
-conn <- dbConnect(SQLite(), "data/comments.db")
-comments <- data.table(dbReadTable(conn, "comments"))
-dbDisconnect(conn)
-rm(conn)
+comments <- (function() {
+	conn <- dbConnect(SQLite(), "data/comments.db")
+	comments <- data.table(dbReadTable(conn, "comment"))
+	dbDisconnect(conn)
+	rm(conn)
+	comments
+})()
