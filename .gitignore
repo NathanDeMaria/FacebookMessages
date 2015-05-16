@@ -2,10 +2,9 @@
 .Rhistory
 .RData
 
-appSettings.csv
-
-data/comments.db
-science/exploratory/*
-!science/exploratory/README.md
+config.xml
 
 *.db
+
+science/exploratory/*
+!science/exploratory/README.md

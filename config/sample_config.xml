@@ -1,0 +1,4 @@
+<config>
+	<item key="token" value="<Facebook access token>" />
+	<item key="conversation_id" value="<Facebook conversation id>" />
+</config>

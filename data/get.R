@@ -5,13 +5,13 @@ library(dplyr)
 library(lubridate)
 
 get_comments <- function(max_date=NULL) {
-	source('app_settings.R', local = T)
+	source('config/app_config.R', local = T)
 	
 	# do me/inbox
 	base_url <- 'https://graph.facebook.com'
 	query <- '/me/inbox'
 	
-	url <- paste0(base_url, query, '?access_token=', app_settings['token']$value)
+	url <- paste0(base_url, query, '?access_token=', get_config('token'))
 	rsp <- content(GET(url))
 	
 	if (!is.null(rsp$error)) {
@@ -19,7 +19,7 @@ get_comments <- function(max_date=NULL) {
 	}
 	
 	datas <- rsp$data
-	the_convo <- datas[[which(sapply(datas, function(dat) {dat$id == app_settings['conversation_id']$value}))]]
+	the_convo <- datas[[which(sapply(datas, function(dat) {dat$id == get_config('conversation_id')}))]]
 	comments_list <- the_convo$comments
 	
 	parse_comment <- function(comment) {
