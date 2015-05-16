@@ -4,7 +4,7 @@ create_sqlite_accessor <- function(db_name) {
 	db_operation <- function(func) {
 		conn <- dbConnect(SQLite(), db_name)
 		tryCatch({
-			result <- func(conn=conn)
+			result <- func(conn = conn)
 		}, finally = {
 			dbDisconnect(conn)
 		})
@@ -15,7 +15,7 @@ create_sqlite_accessor <- function(db_name) {
 		write_table <- function(conn) {
 			tryCatch({
 				dbWriteTable(conn, table_name, dat)
-				if(!is.null(id)) {
+				if (!is.null(id)) {
 					unique_query <- sprintf('CREATE UNIQUE INDEX %s_key on %s(%s)', 
 											id, table_name, id)
 					result <- dbSendQuery(conn, unique_query)
@@ -60,5 +60,5 @@ create_sqlite_accessor <- function(db_name) {
 		})
 	}
 
-	list(create_table=create_table, append_table=append_table, read_table=read_table)	
+	list(create_table = create_table, append_table = append_table, read_table = read_table)	
 }

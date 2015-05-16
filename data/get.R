@@ -5,7 +5,7 @@ library(dplyr)
 library(lubridate)
 
 get_comments <- function(max_date=NULL) {
-	source('app_settings.R', local=T)
+	source('app_settings.R', local = T)
 	
 	# do me/inbox
 	base_url <- 'https://graph.facebook.com'
@@ -14,7 +14,7 @@ get_comments <- function(max_date=NULL) {
 	url <- paste0(base_url, query, '?access_token=', app_settings['token']$value)
 	rsp <- content(GET(url))
 	
-	if(!is.null(rsp$error)) {
+	if (!is.null(rsp$error)) {
 		stop(rsp$error)
 	}
 	
@@ -24,7 +24,7 @@ get_comments <- function(max_date=NULL) {
 	
 	parse_comment <- function(comment) {
 		message <- comment$message
-		if(is.null(message)){
+		if (is.null(message)) {
 			message <- ''
 		}
 		data.frame(
@@ -32,12 +32,12 @@ get_comments <- function(max_date=NULL) {
 				name = comment$from$name,
 				text = message,
 				time = comment$created_time,
-				stringsAsFactors=F
+				stringsAsFactors = F
 			)
 	}
 	
 	date_ok <- function() {
-		if(is.null(max_date)) {
+		if (is.null(max_date)) {
 			return(T)
 		}
 		last_frame <- comments_frames[[length(comments_frames)]]
@@ -47,10 +47,10 @@ get_comments <- function(max_date=NULL) {
 	
 	comments_frames <- lapply(comments_list$data, parse_comment)
 	i <- 1
-	while(!is.null(comments_list$paging$`next`) && date_ok()) {
+	while (!is.null(comments_list$paging$`next`) && date_ok()) {
 		comments_list <- content(GET(comments_list$paging$`next`))
 		Sys.sleep(2)
-		if(!is.null(comments_list$error)) {
+		if (!is.null(comments_list$error)) {
 			warning(paste(comments_list$error$message, "\nYou probably did not get all the messages"))
 		}
 		comments_frames <- c(comments_frames, lapply(comments_list$data, parse_comment))
@@ -59,7 +59,7 @@ get_comments <- function(max_date=NULL) {
 	}
 	
 	comments <- data.table(rbind_all(comments_frames))
-	comments[,time:=ymd_hms(time)]
+	comments[,time := ymd_hms(time)]
 	setkey(comments, id)
 	comments
 }
