@@ -7,3 +7,6 @@ You can find your token by going to [Facebook's dev explorer page](https://devel
 #### conversation_id
 You can find a conversation's id by going to your [Facebook messages](https://www.facebook.com/messages/) and selecting the desired group converation.
 The `conversation_id` will be in the url: `https://www.facebook.com/messages/conversation-<conversation_id>`
+
+#### open_browser
+If this is set to `TRUE`, when running `get_comments`, the script will open a browser to the Facebook dev explorer page if the access token session has expired.
