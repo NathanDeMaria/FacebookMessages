@@ -28,9 +28,9 @@ create_train_test <- function(comments, min_messages=250, balance=F) {
 	sets
 }
 
-evaluate <- function(model_generator, balance=F, verbose=F) {
+evaluate <- function(model_generator, balance=F, verbose=F, ...) {
 	tt <- create_train_test(comments, balance = balance)
-	predictor <- model_generator(tt$train)
+	predictor <- model_generator(tt$train, ...)
 	predictions <- predictor(tt$test)
 	
 	if (verbose) {
