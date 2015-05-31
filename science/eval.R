@@ -32,7 +32,7 @@ create_train_test <- function(comments, min_messages=250, balance=F) {
 	sets
 }
 
-evaluate <- function(model_generator, min_messages = 250, balance=F, even_weighted=T, verbose=F, ...) {
+evaluate <- function(model_generator, min_messages=250, balance=F, verbose=F, ...) {
 	tt <- create_train_test(comments, min_messages = min_messages, balance = balance)
 	predictor <- model_generator(tt$train, ...)
 	tt$test$prediction <- predictor(tt$test)
@@ -42,12 +42,11 @@ evaluate <- function(model_generator, min_messages = 250, balance=F, even_weight
 		print(table(tt$test$prediction, tt$test$name))
 	}
 	
-	if (even_weighted) {
-		# final accuracy is reported as proportion correct if each person was equally weighted
-		scores <- tt$test[,list(score = mean(name == prediction, na.rm = T)), by = name]
-		mean(scores$score)
-	} else {
-		# final accuracy is just proportion of total correct
-		mean(tt$test$prediction == tt$test$name, na.rm = T)
-	}
+	# accuracy if each person was equally weighted
+	scores <- tt$test[,list(score = mean(name == prediction, na.rm = T)), by = name]
+	even_weighted <- mean(scores$score)
+	
+	# accuracy as proportion of total correct
+	original_weight <- mean(tt$test$prediction == tt$test$name, na.rm = T)
+	list(even = even_weighted, original = original_weight)
 }
