@@ -14,7 +14,10 @@ random_forest_model <- function(train, n=50) {
 		}
 		
 		create_top_words_matrix <- function(top_words) {
-			top_matrix <- dataset[,sapply(top_words, function(word) {grepl(pattern = word, x = text)})]
+			top_matrix <- dataset[,sapply(top_words, function(word) {
+				regex_safe <- str_replace_all(word, "(\\W)", "\\\\\\1")
+				grepl(pattern = regex_safe, x = text)
+			})]
 			top_matrix <- data.table(top_matrix)
 			
 			# clean the names
